@@ -1,4 +1,4 @@
-function y=SocDynK_all(n,beta,r,k,s,T)
+function y = Model(n,beta,r,k,s,T, alpha)
 % A is the adjacency matrix, x0 the initial condition, weight of the consistency dynamics k, weight
 %of the prediction dynamics r, weight of the coordination dynamics, total number of rounds T, and s
 %is a vector of dimension n with 1 in correspondence of the stubborn nodes
@@ -38,7 +38,7 @@ z=sum(x);
 while t<T 
     t=t+1;
     pi(:,1)=b*sum(1-x)/(n-1)+(k-b/(n-1)).*(1-x)+r.*(1-p);
-    pi(:,2)=b*sum(x)/(n-1)+(k-b/(n-1)).*x+r.*p;
+    pi(:,2)=b*sum(x)/(n-1)+(k-b/(n-1)).*x+r.*p + alpha;
     x=zeros(n,1);
     x(rand(n,1)<exp(beta*pi(:,2))./(exp(beta*pi(:,2))+exp(beta*pi(:,1))))=1;
     x(s==1)=1;
@@ -47,4 +47,5 @@ while t<T
     old=x;
     y(:,t)=old;
 end
+
 end

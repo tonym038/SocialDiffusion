@@ -1,0 +1,39 @@
+% text file will be evaluated like MATLAB code, so calculations can be written in MATLAB language
+
+    %% -- constants
+% struct of parameters having the same value (scalar or row vector) across all parameter runs
+% when switching parameter from constant to variable, ensure constant line is suppressed
+
+% Agent parameters
+%constant.alpha = 0.02; % relative advantage
+constant.beta = 7.8;
+constant.b_e = 0.48; % social coordination of explorers
+constant.k_e = 0.10; % inertia of explorers
+constant.r_e = 0.42; % trend-seeking of explorers
+constant.b_f = 0.42 - 0.1;
+constant.k_f = 0.42 + 0.2; 
+constant.r_f = 0.16 - 0.1;
+
+% Population Parameters
+constant.n = 30;
+constant.network = 'complete'; % network. Currently hard-coded in model
+constant.rho = 0.5; % target fraction of explorers among explorers & non-explorers
+constant.zel = 0.22; % % target fraction of innovators / zealots / stubborn agents
+constant.n_z = round(constant.n * constant.zel); % actual number of zealots
+constant.n_e = round(constant.rho*(constant.n - constant.n_z)); % actual number of explorers
+constant.n_f = constant.n - constant.n_e - constant.n_z; % actual number of non-explorers
+
+% Simulation Parameters
+constant.T=1000;
+
+    %% -- variables
+% struct array of parameters whose values differ across parameter runs
+% set of values must be row vector
+% setting only one value for a 'variable' parameter is equivalent to making it 'constant'
+% string parameters must have values as cell array
+
+variable(1).name = 'alpha';
+variable(1).values = [0 0.02];
+
+%variable(2).name = 'a';
+%variable(2).values = {'red' 'green' 'blue'};
