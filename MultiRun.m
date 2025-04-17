@@ -14,8 +14,7 @@ T_gif = 150; %150;  % Time step to finish on for gif
 filename_gif = ''; % '' to suppress gif creation. 'Example_NetSci_Explosive.gif';
 
     %% Model Run
-SimRunner_par('Model2', filename_input, filename_output)    
-
+SimRunner_par('Model', filename_input, filename_output)
 
     %% Post-Simulation Analysis
 load(filename_output);

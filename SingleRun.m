@@ -34,8 +34,11 @@ filename_gif = ''; % '' to suppress gif creation. 'Example_NetSci_Explosive.gif'
     %% Model Run
 r = [r_e*ones(1,n_e) r_f*ones(1,n-n_e)]; % explorers, non-explorers, zealots. Zealot states are fixed, so properties don't matter
 k = [k_e*ones(1,n_e) k_f*ones(1,n-n_e)];
-x = Model(n, beta, r, k, n_z, T, alpha);
-%load('UWA_example.mat','A','x')   %Load the already generated data.
+
+% x = Model(n, beta, r, k, n_z, T, alpha);
+IN = struct('n', n, 'n_e', n_e, 'n_z', n_z, 'beta', beta, 'r_e', r_e, 'r_f', r_f, 'k_e', k_e, 'k_f', k_f, 'T', T, 'alpha', alpha);
+OUT = Model(IN);
+x = OUT.x;
 
     %% Post-Simulation Analysis
 % n = size(x,1);
