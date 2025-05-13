@@ -2,11 +2,11 @@
 % clear variables
 
 setup(); 
-rng(1); % fixing seed for testing purposes
+% rng(1); % fixing seed for testing purposes
 
     %% Input Parameter
 % Agent Parameters
-alpha=0.02; % relative advantage
+alpha=0; % relative (additive) advantage
 beta=7.8; %6;
 b_e = 0.48; % social coordination of explorers
 k_e=0.10; %0.08; % inertia of explorers
@@ -28,7 +28,7 @@ n_f = n - n_e - n_z; % actual number of non-explorers
 T=1000;
 
 % Plot Parameters
-T_gif = T; %150;  % Time step to finish on for gif
+T_gif = 150;  % Time step to finish on for gif
 filename_gif = ''; % '' to suppress gif creation. 'Example_NetSci_Explosive.gif';
 
     %% Model Run
@@ -96,7 +96,7 @@ dim = [0.85 0.6 0.6 0.3];
 str = {'Time step',num2str(1)};
 zz = annotation('textbox',dim,'String',str,'FitBoxToText','on');
 set(zz,'EdgeColor',[1 1 1],'FontSize',24)
-subtitle('O: Explorer, \Delta: Non-explorer, X: Zealot')
+subtitle('O: Explorer, \Delta: Non-explorer, X: Zealot \newline Blue: Status Quo, Red: Alternative')
 hold off;
 
 if ~isempty(filename_gif)
@@ -105,7 +105,7 @@ if ~isempty(filename_gif)
     M = getframe; % initialize object; will be overwritten in loop
 end
 
-for t = T_gif%1:t_finish
+for t = 1:T_gif
     fig1;
     set(plot1,'XData',1:t,'YData',x_avg(1:t))
     mk_colour_public = reshape(x_hat_colour(:,t,:),3,n)'; %This takes out the marker colours for n individuals at the i-th time step, with i-th row being the marker colour for individual i
