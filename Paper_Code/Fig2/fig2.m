@@ -1,4 +1,4 @@
-clc
+clc %TESTING_PLEASE_WORK
 clear all
 n=200;
 beta=7.8;
