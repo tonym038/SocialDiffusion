@@ -5,10 +5,10 @@ r_e=0.42;
 r_f=0.16;
 k_e=0.10;
 k_f=0.42;
-rho=0.7;
+rho=0.7; %Paper uses rho=0.2?
 n_e=round(n*rho*3/4);
 y=[];
-for i=1:1000
+for i=1:1000 %Index to R instead?
 [t,dt,temp]=SocDynK_time2(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4);
 y=[y temp/t];
 end

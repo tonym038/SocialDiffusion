@@ -43,6 +43,7 @@ while flag==0 && t<10000000
     pi(:,2)=b*sum(x)/(n-1)+(k-b/(n-1)).*x+r.*p;
     x=zeros(n,1);
     x(rand(n,1)<exp(beta*pi(:,2))./(exp(beta*pi(:,2))+exp(beta*pi(:,1))))=1;
+%If rand number [0,1] < prob(alt), then agent plays alt
     x(s==1)=1;
     p=.5*(1+(sum(x)-x)/(n-1)-(sum(old)-old)/(n-1));
     z=[z sum(x)];

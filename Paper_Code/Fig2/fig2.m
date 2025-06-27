@@ -1,19 +1,20 @@
-clc %TESTING_PLEASE_WORK
+clc
 clear all
-n=200;
-beta=7.8;
-r_e=0.42;
+n=200; %No. participants
+beta=7.8; %Rationality
+r_e=0.42; %Weights of mechanisms for explorers and non-explorers
 r_f=0.16;
 k_e=0.10;
-k_f=0.42;
-rho=0.2;
-n_e=round(n*rho*3/4);
-[t,dt,y]=SocDynK_time2(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4);
+k_f=0.42; 
+%b is defined in the SocDynK function
+rho=0.2; %Percentage of explorers
+n_e=round(n*rho*3/4); %No. explorers = No.participants*percentage explorers*percentage non-committed
+[t,dt,y]=SocDynK_time2(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4); %Plots line where rho=0.2
 rho=0.6;
-hold on
+hold on %Allows multiple lines for fig 2a
 n_e=round(n*rho*3/4);
 [t2,dt2,y2]=SocDynK_time2(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4);
-figure
+figure %Used to create new figure window
 histogram(y/t,14,'Normalization','probability')
 figure
 histogram(y2/t2,14,'Normalization','probability')
