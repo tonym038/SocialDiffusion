@@ -37,10 +37,32 @@ t=0; %Sets starting value for t
 flag=0;
 dt=0;
 z=n*n_s; %=Number of committed minority?
+g=1.5
 while flag==0 && t<10000
     t=t+1;
-    pi(:,1)=b*sum(1-x)/(n-1)+(k-b/(n-1)).*(1-x)+r.*(1-p); %SQ (0)
-    pi(:,2)=b*sum(x)/(n-1)+(k-b/(n-1)).*x+r.*p; %Alt (1)
+    Total_equals=[]
+    G=ones(n,n)
+    for v=1:n
+        equals=-1
+        for w=1:n
+            if x(v)==x(w)
+                equals=equals+1
+                G(w,v)=g
+            end
+            if w==v
+                G(w,v)=0
+            end
+        end
+        Total_equals=[Total_equals equals]
+    end
+    Total_unequals=n-1-Total_equals
+    a_base  = b./(g*Total_equals + Total_unequals)
+    denominator=(g*Total_equals + Total_unequals)
+    a_all=a_base.*G
+    P=x.*a_all
+    S_C=sum(P,1)
+    pi(:,1)=S_C+(k-b/(n-1)).*(1-x)+r.*(1-p); %SQ (0)
+    pi(:,2)=S_C+(k-b/(n-1)).*x+r.*p; %Alt (1)
     x=zeros(n,1);
     x(rand(n,1)<exp(beta*pi(:,2))./(exp(beta*pi(:,2))+exp(beta*pi(:,1))))=1;
     %If rand number [0,1] < prob(alt), then agent plays alt
