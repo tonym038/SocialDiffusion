@@ -74,9 +74,6 @@ for runs=1:10
         if sum(x)<=.4*n
             dt=t; %dt will stop at take-off time
         end
-        % if sum(x)>=.99*n %Defines situation where full diffusion occurs
-        %     flag=1; %Breaks the while loop
-        % end
         y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
         old=x; %Updates t-1 (Useful for x_hat)
     end
