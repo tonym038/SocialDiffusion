@@ -50,7 +50,7 @@ while flag==0 && t<10000
                 G(v,w)=g;
             end
             if w==v
-                G(w,v)=0;
+                G(v,w)=0;
             end
         end
         Total_equals=[Total_equals; equals];
