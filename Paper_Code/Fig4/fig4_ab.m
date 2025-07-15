@@ -1,22 +1,22 @@
-n=[1000 2000 4000 8000];
+n=[1000 2000 4000 8000]; %Number of explorers for each run
 K=length(n);
-l=1;
+l=1; %Index used for element in n (Different colours in paper)
 R=200;
 beta=7.8;
 r_e=0.42;
 r_f=0.16;
 k_e=0.10;
-k_f=0.42;
-tr=0.4;
+k_f=0.42; %Parameter values
+tr=0.4; %Threshold
 conf=0.25;
-rho=0:0.05:1;
-n_n=round(n(l)*(1-conf));
-n_e=round(n_n*rho);
+rho=0:0.05:1; %Start, step, stop (1 row, 21 columns) (explorers)
+n_n=round(n(l)*(1-conf)); %No. non-CM
+n_e=round(n_n*rho); %Array (No. explorers for each rho)
 M=length(n_e);
 t1=zeros(M,R);
 dt1=zeros(M,R);
-for i=1:M
-    for j=1:R
+for i=1:M %For each percentage of explorers (x-axis)
+    for j=1:R %200 simulations
         [t1(i,j),dt1(i,j)]=SocDynK_time(n(l),beta,[r_e*ones(1,n_e(i)) r_f*ones(1,n_n-n_e(i))],[k_e*ones(1,n_e(i)) k_f*ones(1,n_n-n_e(i))],n(l)-n_n,tr);
         display(strcat('Progress:',num2str((i-1)*R+j),'/',num2str(R*M*K)))
     end
@@ -82,13 +82,13 @@ t3=t3-dt3;
 t4=t4-dt4;
 % t5=t5-dt5;
 % t5(isnan(t5))=200000;
-t4(isnan(t4))=200000;
+t4(isnan(t4))=200000; %Makes the final element NaN
 t3(isnan(t3))=200000;
 t2(isnan(t2))=200000;
 t1(isnan(t1))=200000;
 errorbar(rho,mean(t1,2),1.96*sqrt(mean(t1.^2,2)-mean(t1,2).^2)/sqrt(R))
 hold on
-errorbar(rho,mean(t2,2),1.96*sqrt(mean(t2.^2,2)-mean(t2,2).^2)/sqrt(R))
+errorbar(rho,mean(t2,2),1.96*sqrt(mean(t2.^2,2)-mean(t2,2).^2)/sqrt(R)) %(x,y,err)
 errorbar(rho,mean(t3,2),1.96*sqrt(mean(t3.^2,2)-mean(t3,2).^2)/sqrt(R))
 errorbar(rho,mean(t4,2),1.96*sqrt(mean(t4.^2,2)-mean(t4,2).^2)/sqrt(R))
 % errorbar(rho,mean(t5,2),1.96*sqrt(mean(t5.^2,2)-mean(t5,2).^2)/sqrt(R))

@@ -1,4 +1,6 @@
 function [t,dt] = SocDynK_time(n,beta,r,k,conf,tr)
+%conf = no. CM
+%tr is the threshold percentage for take-off time
 % A is the adjacency matrix, x0 the initial condition, weight of the consistency dynamics k, weight
 %of the prediction dynamics r, weight of the coordination dynamics, total number of rounds T, and s
 %is a vector of dimension n with 1 in correspondence of the stubborn nodes
@@ -36,8 +38,8 @@ while flag==0 && t<200000
     z=sum(x)+conf;
     p=.5*(1+(z-z_old)/n);
     z_old=z;
-     if z<=tr*n
-         dt=t;
+     if z<=tr*n %will only happen when below threshold
+         dt=t; %dt is the take-off time
     end
     if z>=.95*n
         flag=1;

@@ -8,8 +8,8 @@ r_e=0.42;
 r_f=0.16;
 k_e=0.10;
 k_f=0.42;
-conf=0.15:0.005:0.30;
-rho=0:.1:1;
+conf=0.15:0.005:0.30; %x-values
+rho=0:.1:1; %y-values
 M=length(rho);
 N=length(conf);
 count=zeros(M,N);
@@ -21,18 +21,18 @@ for i=1:M
         n_e=round(n_n*rho(i));
         for k=1:R
             [temp_c,temp_t]=SocDynK_time_t(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n_n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n_n-n_e)],n-n_n);
-            count(i,j)=count(i,j)+temp_c;
-            time(i,j)=time(i,j)+temp_c*temp_t;
+            count(i,j)=count(i,j)+temp_c; %=No. times full diffusion reached
+            time(i,j)=time(i,j)+temp_c*temp_t; %=Total time for full diffusion
         end
     end
 end
-time=time./count;
-count=count/R;
+time=time./count; %=Average time for diffusion
+count=count/R; %=Percentage of times full diffusion reached
 %view
 %surf(conf, rho, count)
 %view(0, 90);
 figure
-surf(conf, rho, time)
+surf(conf, rho, time) %plot function (x,y,z)
 view(0, 90);
 %toc
 
