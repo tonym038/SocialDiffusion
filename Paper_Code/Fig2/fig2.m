@@ -20,5 +20,11 @@ ylabel('Players Adopting the Alternative')
 legend('\rho_{e} = 0.2','\rho_{e} = 0.6')
 figure %Used to create new figure window
 histogram(y/t,14,'Normalization','probability','FaceColor','#ff9900','EdgeColor','#ff9900')
+title('Fig2b: Switching Rate \rho_{e} = 0.2')
+xlabel('Switching rate, y')
+ylabel('Percentage Frequency')
 figure
 histogram(y2/t2,14,'Normalization','probability','FaceColor','#0000CC','EdgeColor','#0000CC')
+title('Fig2c: Switching Rate \rho_{e} = 0.6')
+xlabel('Switching rate, y')
+ylabel('Percentage Frequency')
