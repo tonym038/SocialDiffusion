@@ -30,6 +30,7 @@ b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
 g=1;
 for runs=1:10
+    rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
     old=zeros(n,1)+s; %Creates an nx1 array all of value s (Remembering the s parameter has been modified in code)
     x=old;
@@ -39,7 +40,7 @@ for runs=1:10
     z=n*n_s; %=Number of committed minority
     rounds=450;
     FullDiffusion = false;
-    for rounds = 1:rounds
+    for rnds = 1:rounds
         Total_equals=[];
         G=ones(n,n);
         for v=1:n
@@ -90,21 +91,21 @@ for runs=1:10
     end
     if rho == 0.6
         if runs < 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#cce0ff')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#cce0ff',HandleVisibility='off')
             ytickformat("percentage")
         end
         if runs == 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#0000CC')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#0000CC',DisplayName='\rho_{e} = 0.6')
             ytickformat("percentage")
         end
     end
     if rho == 0.2
         if runs < 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699',HandleVisibility='off')
             ytickformat("percentage")
         end
         if runs == 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ff9900')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ff9900',DisplayName='\rho_{e} = 0.2')
             ytickformat("percentage")
         end
     end

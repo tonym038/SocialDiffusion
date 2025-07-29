@@ -8,6 +8,7 @@ k_e=0.10;
 k_f=0.42; 
 %b is defined in the SocDynK function
 rho=0.2; %Percentage of explorers
+hold on
 n_e=round(n*rho*3/4); %No. explorers = No.participants*percentage explorers*percentage non-committed
 [t,dt,y]=SocDynK_time2(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho); %Plots line where rho=0.2
 rho=0.6;
@@ -17,9 +18,10 @@ n_e=round(n*rho*3/4);
 title('Original Fig2a')
 xlabel('Round, t')
 ylabel('Players Adopting the Alternative')
-legend('\rho_{e} = 0.2','\rho_{e} = 0.6')
+legend()
 figure %Used to create new figure window
-histogram(y/t,14,'Normalization','probability','FaceColor','#ff9900','EdgeColor','#ff9900')
+histogram(y/t,14,'Normalization','percentage','FaceColor','#ff9900','EdgeColor','#ff9900')
+ytickformat("percentage")
 title('Fig2b: Switching Rate \rho_{e} = 0.2')
 xlabel('Switching rate, y')
 ylabel('Percentage Frequency')
