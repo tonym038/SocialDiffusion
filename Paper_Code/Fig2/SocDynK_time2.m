@@ -30,16 +30,17 @@ b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
 g=1;
 for runs=1:10
+    rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
     old=zeros(n,1)+s; %Creates an nx1 array all of value s (Remembering the s parameter has been modified in code)
     x=old;
     p=.5; %Sets starting value for x_hat
     t=0; %Sets starting value for t
-    flag=0;
     dt=0;
     z=n*n_s; %=Number of committed minority
-    while flag==0 && t<600
-        t=t+1;
+    rounds=450;
+    FullDiffusion = false;
+    for rnds = 1:rounds
         Total_equals=[];
         G=ones(n,n);
         for v=1:n
@@ -57,7 +58,7 @@ for runs=1:10
         end
         Total_unequals=n-1-Total_equals;
         a_base = b./(g*Total_equals + Total_unequals);
-        denominator=(g*Total_equals + Total_unequals);
+        %denominator=(g*Total_equals + Total_unequals);
         a_all=a_base.*G;
         P_1=x'.*a_all;
         S_C_1=sum(P_1,2);
@@ -71,6 +72,12 @@ for runs=1:10
         x(s==1)=1; %Those who are CM will play strat 1 (alt)
         p=.5*(1+(sum(x)-x)/(n-1)-(sum(old)-old)/(n-1)); %Updates x_hat
         z=[z sum(x)];
+        if ~FullDiffusion %Defines situation where full diffusion occurs
+            t=t+1;
+            if sum(x)>=.99*n
+                FullDiffusion=true;
+            end
+        end
         if sum(x)<=.4*n
             dt=t; %dt will stop at take-off time
         end
@@ -78,24 +85,28 @@ for runs=1:10
         old=x; %Updates t-1 (Useful for x_hat)
     end
     dt=t-dt; %dt becomes a measure of explosiveness
-    y=y(1:round((1-n_s)*n))'-1; %Formula for switching rate (Not divided by diffusion time)
-    if t>400
-        z=reducev(z,0:t,200);
-    end
+    y=y(1:round((1-n_s)*n))'-1; %Formula for switching rate for non-CM agents
+    %if t>400
+     %   z=reducev(z,0:t,200);
+    %end
     if rho == 0.6
         if runs < 10
-            plot(linspace(0,t,length(z)),(z-n_s*n)/(n-n_s*n),'color','#cce0ff')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#cce0ff',HandleVisibility='off')
+            ytickformat("percentage")
         end
         if runs == 10
-            plot(linspace(0,t,length(z)),(z-n_s*n)/(n-n_s*n),'color','#0000CC')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#0000CC',DisplayName='\rho_{e} = 0.6')
+            ytickformat("percentage")
         end
     end
     if rho == 0.2
         if runs < 10
-            plot(linspace(0,t,length(z)),(z-n_s*n)/(n-n_s*n),'color','#ffd699')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699',HandleVisibility='off')
+            ytickformat("percentage")
         end
         if runs == 10
-            plot(linspace(0,t,length(z)),(z-n_s*n)/(n-n_s*n),'color','#ff9900')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#b03509',DisplayName='\rho_{e} = 0.2')
+            ytickformat("percentage")
         end
     end
     end
