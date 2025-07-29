@@ -86,9 +86,9 @@ for runs=1:10
     end
     dt=t-dt; %dt becomes a measure of explosiveness
     y=y(1:round((1-n_s)*n))'-1; %Formula for switching rate for non-CM agents
-    if t>400
-        z=reducev(z,0:t,200);
-    end
+    %if t>400
+     %   z=reducev(z,0:t,200);
+    %end
     if rho == 0.6
         if runs < 10
             plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#cce0ff',HandleVisibility='off')
@@ -105,7 +105,7 @@ for runs=1:10
             ytickformat("percentage")
         end
         if runs == 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ff9900',DisplayName='\rho_{e} = 0.2')
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#b03509',DisplayName='\rho_{e} = 0.2')
             ytickformat("percentage")
         end
     end

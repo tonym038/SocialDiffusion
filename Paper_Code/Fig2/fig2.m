@@ -15,18 +15,19 @@ rho=0.6;
 hold on %Allows multiple lines for fig 2a
 n_e=round(n*rho*3/4);
 [t2,dt2,y2]=SocDynK_time2(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho);
-title('Original Fig2a')
+title('Modified Fig2a: \gamma = 1')
 xlabel('Round, t')
 ylabel('Players Adopting the Alternative')
-legend()
+legend(Location="northeast")
 figure %Used to create new figure window
-histogram(y/t,14,'Normalization','percentage','FaceColor','#ff9900','EdgeColor','#ff9900')
+histogram(y/t,14,'Normalization','percentage','FaceColor','#b03509','EdgeColor','#b03509')
 ytickformat("percentage")
-title('Fig2b: Switching Rate \rho_{e} = 0.2')
+title('Modified Fig2b: Switching Rate \rho_{e} = 0.2, \gamma = 1')
 xlabel('Switching rate, y')
 ylabel('Percentage Frequency')
 figure
-histogram(y2/t2,14,'Normalization','probability','FaceColor','#0000CC','EdgeColor','#0000CC')
-title('Fig2c: Switching Rate \rho_{e} = 0.6')
+histogram(y2/t2,14,'Normalization','percentage','FaceColor','#0000CC','EdgeColor','#0000CC')
+ytickformat("percentage")
+title('Modified Fig2c: Switching Rate \rho_{e} = 0.6, \gamma = 1')
 xlabel('Switching rate, y')
 ylabel('Percentage Frequency')
