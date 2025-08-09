@@ -28,7 +28,7 @@ if size(r,1)==1
 end
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
-g=1;
+g=2;
 for runs=1:10
     rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
