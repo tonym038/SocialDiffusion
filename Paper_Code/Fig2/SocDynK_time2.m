@@ -74,6 +74,7 @@ for runs=1:10
         z=[z sum(x)];
         if ~FullDiffusion %Defines situation where full diffusion occurs
             t=t+1;
+            y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
             if sum(x)>=.99*n
                 FullDiffusion=true;
             end
@@ -81,7 +82,6 @@ for runs=1:10
         if sum(x)<=.4*n
             dt=t; %dt will stop at take-off time
         end
-        y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
         old=x; %Updates t-1 (Useful for x_hat)
     end
     dt=t-dt; %dt becomes a measure of explosiveness
@@ -100,12 +100,11 @@ for runs=1:10
         end
     end
     if rho == 0.2
-        if runs < 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699',HandleVisibility='off')
-            ytickformat("percentage")
-        end
-        if runs == 10
+        if runs == 4
             plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#b03509',DisplayName='\rho_{e} = 0.2')
+            ytickformat("percentage")
+        else
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699',HandleVisibility='off')
             ytickformat("percentage")
         end
     end

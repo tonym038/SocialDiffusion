@@ -15,10 +15,10 @@ rho=0.6;
 hold on %Allows multiple lines for fig 2a
 n_e=round(n*rho*3/4);
 [t2,dt2,y2]=SocDynK_time2(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho);
-title('Modified Fig2a: \gamma = 1')
+title('Modified Fig2a: \gamma = 2')
 xlabel('Round, t')
 ylabel('Players Adopting the Alternative')
-legend(Location="northeast")
+legend(Location="southeast")
 figure %Used to create new figure window
 histogram(max(0,y/t),14,'Normalization','percentage','FaceColor','#b03509','EdgeColor','#b03509', 'BinWidth', 0.025)
 ytickformat("percentage")
