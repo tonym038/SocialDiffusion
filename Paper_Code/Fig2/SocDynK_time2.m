@@ -1,4 +1,4 @@
-function [t,dt,y] = SocDynK_time2(n,beta,r,k,s,rho) 
+function [t,dt,y,xaxis,dydx] = SocDynK_time2(n,beta,r,k,s,rho) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -89,24 +89,28 @@ for runs=1:10
     %if t>400
      %   z=reducev(z,0:t,200);
     %end
+    xaxis=linspace(0,rounds,length(z));
+    yaxis=(z-n_s*n)*100/(n-n_s*n);
     if rho == 0.6
         if runs < 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#cce0ff',HandleVisibility='off')
+            plot(xaxis,yaxis,'color','#cce0ff',HandleVisibility='off')
             ytickformat("percentage")
         end
         if runs == 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#0000CC',DisplayName='\rho_{e} = 0.6')
+            plot(xaxis,yaxis,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
             ytickformat("percentage")
+            dydx=(yaxis(2:end)-yaxis(1:end-1))./(xaxis(2:end)-xaxis(1:end-1));
         end
     end
     if rho == 0.2
         if runs == 4
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#b03509',DisplayName='\rho_{e} = 0.2')
+            plot(xaxis,yaxis,'color','#b03509',DisplayName='\rho_{e} = 0.2')
             ytickformat("percentage")
+            dydx=(yaxis(2:end)-yaxis(1:end-1))./(xaxis(2:end)-xaxis(1:end-1));
         else
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699',HandleVisibility='off')
+            plot(xaxis,yaxis,'color','#ffd699',HandleVisibility='off')
             ytickformat("percentage")
         end
     end
-    end
+end
 end
