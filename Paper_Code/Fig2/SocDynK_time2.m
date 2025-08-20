@@ -28,7 +28,7 @@ if size(r,1)==1
 end
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
-g=2;
+g=1;
 for runs=1:10
     rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
@@ -73,10 +73,11 @@ for runs=1:10
         p=.5*(1+(sum(x)-x)/(n-1)-(sum(old)-old)/(n-1)); %Updates x_hat
         z=[z sum(x)];
         if ~FullDiffusion %Defines situation where full diffusion occurs
-            t=t+1;
-            y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
             if sum(x)>=.99*n
                 FullDiffusion=true;
+            else
+                t=t+1;
+                y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
             end
         end
         if sum(x)<=.4*n
@@ -85,7 +86,7 @@ for runs=1:10
         old=x; %Updates t-1 (Useful for x_hat)
     end
     dt=t-dt; %dt becomes a measure of explosiveness
-    y=y(1:round((1-n_s)*n))'-1; %Formula for switching rate for non-CM agents
+    y=y(1:round((1-n_s)*n))'; %Formula for switching rate for non-CM agents
     %if t>400
      %   z=reducev(z,0:t,200);
     %end
