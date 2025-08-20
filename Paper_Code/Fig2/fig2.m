@@ -20,10 +20,10 @@ xlabel('Round, t')
 ylabel('Players Adopting the Alternative')
 legend(Location="southeast")
 figure %Used to create new figure window
-plot(x(1:end-1),dydx,DisplayName='\rho_{e} = 0.2')
+plot(x(1:end-1),dydx,'color','#b03509',DisplayName='\rho_{e} = 0.2')
 ytickformat("percentage")
 hold on
-plot(x2(1:end-1),dydx2,DisplayName='\rho_{e} = 0.6')
+plot(x2(1:end-1),dydx2,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
 title('Fig 2d: \gamma = 2')
 xlabel('Round, t')
 ylabel('Percentage Point Players Adopting the Alternative')
