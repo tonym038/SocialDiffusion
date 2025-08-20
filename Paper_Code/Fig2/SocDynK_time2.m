@@ -1,4 +1,4 @@
-function [t,dt,y,xaxis,dydx] = SocDynK_time2(n,beta,r,k,s,rho) 
+function [t,dt,y,derivative_xaxis,dydx] = SocDynK_time2(n,beta,r,k,s,rho) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -28,7 +28,7 @@ if size(r,1)==1
 end
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
-g=2;
+g=5;
 for runs=1:10
     rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
@@ -92,6 +92,15 @@ for runs=1:10
     %end
     xaxis=linspace(0,rounds,length(z));
     yaxis=(z-n_s*n)*100/(n-n_s*n);
+    delta_t=10;
+    derivative_xaxis=xaxis(1+delta_t:end-1);
+    Rol_yaxis=zeros(1,(size(yaxis,2)-delta_t));
+    for xxx = 1:size(yaxis,2)-delta_t
+        for yyy = 1:delta_t
+            Rol_yaxis(1,xxx) = Rol_yaxis(1,xxx) + yaxis(1,xxx+delta_t-yyy);
+        end
+    end
+    Avg_yaxis=Rol_yaxis./delta_t;
     if rho == 0.6
         if runs < 10
             plot(xaxis,yaxis,'color','#cce0ff',HandleVisibility='off')
@@ -100,14 +109,14 @@ for runs=1:10
         if runs == 10
             plot(xaxis,yaxis,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
             ytickformat("percentage")
-            dydx=(yaxis(2:end)-yaxis(1:end-1))./(xaxis(2:end)-xaxis(1:end-1));
+            dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         end
     end
     if rho == 0.2
         if runs == 4
             plot(xaxis,yaxis,'color','#b03509',DisplayName='\rho_{e} = 0.2')
             ytickformat("percentage")
-            dydx=(yaxis(2:end)-yaxis(1:end-1))./(xaxis(2:end)-xaxis(1:end-1));
+            dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         else
             plot(xaxis,yaxis,'color','#ffd699',HandleVisibility='off')
             ytickformat("percentage")
