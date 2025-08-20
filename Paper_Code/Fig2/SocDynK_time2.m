@@ -1,4 +1,4 @@
-function [t,dt,y] = SocDynK_time2(n,beta,r,k,s,rho) 
+function [t,dt,y,derivative_xaxis,dydx] = SocDynK_time2(n,beta,r,k,s,rho) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -28,7 +28,7 @@ if size(r,1)==1
 end
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
-g=2;
+g=5;
 for runs=1:10
     rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
@@ -73,41 +73,54 @@ for runs=1:10
         p=.5*(1+(sum(x)-x)/(n-1)-(sum(old)-old)/(n-1)); %Updates x_hat
         z=[z sum(x)];
         if ~FullDiffusion %Defines situation where full diffusion occurs
-            t=t+1;
             if sum(x)>=.99*n
                 FullDiffusion=true;
+            else
+                t=t+1;
+                y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
             end
         end
         if sum(x)<=.4*n
             dt=t; %dt will stop at take-off time
         end
-        y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
         old=x; %Updates t-1 (Useful for x_hat)
     end
     dt=t-dt; %dt becomes a measure of explosiveness
-    y=y(1:round((1-n_s)*n))'-1; %Formula for switching rate for non-CM agents
+    y=y(1:round((1-n_s)*n))'; %Formula for switching rate for non-CM agents
     %if t>400
      %   z=reducev(z,0:t,200);
     %end
+    xaxis=linspace(0,rounds,length(z));
+    yaxis=(z-n_s*n)*100/(n-n_s*n);
+    delta_t=10;
+    derivative_xaxis=xaxis(1+delta_t:end-1);
+    Rol_yaxis=zeros(1,(size(yaxis,2)-delta_t));
+    for xxx = 1:size(yaxis,2)-delta_t
+        for yyy = 1:delta_t
+            Rol_yaxis(1,xxx) = Rol_yaxis(1,xxx) + yaxis(1,xxx+delta_t-yyy);
+        end
+    end
+    Avg_yaxis=Rol_yaxis./delta_t;
     if rho == 0.6
         if runs < 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#cce0ff',HandleVisibility='off')
+            plot(xaxis,yaxis,'color','#cce0ff',HandleVisibility='off')
             ytickformat("percentage")
         end
         if runs == 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#0000CC',DisplayName='\rho_{e} = 0.6')
+            plot(xaxis,yaxis,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
             ytickformat("percentage")
+            dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         end
     end
     if rho == 0.2
-        if runs < 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699',HandleVisibility='off')
+        if runs == 4
+            plot(xaxis,yaxis,'color','#b03509',DisplayName='\rho_{e} = 0.2')
             ytickformat("percentage")
-        end
-        if runs == 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#b03509',DisplayName='\rho_{e} = 0.2')
+            dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
+        else
+            plot(xaxis,yaxis,'color','#ffd699',HandleVisibility='off')
             ytickformat("percentage")
         end
     end
-    end
+end
 end

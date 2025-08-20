@@ -1,4 +1,4 @@
-function [t,dt,y] = SocDynK_time2(n,beta,r,k,s,rho) 
+function [t,dt,y] = SocDynK_time2(n,beta,r,k,s,rho,rounds) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -28,8 +28,8 @@ if size(r,1)==1
 end
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
-g=5;
-for runs=1:50
+g=1;
+for runs=1:10
     rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
     old=zeros(n,1)+s; %Creates an nx1 array all of value s (Remembering the s parameter has been modified in code)
@@ -38,7 +38,6 @@ for runs=1:50
     t=0; %Sets starting value for t
     dt=0;
     z=n*n_s; %=Number of committed minority
-    rounds=120;
     FullDiffusion = false;
     for rnds = 1:rounds
         Total_equals=[];
@@ -58,6 +57,7 @@ for runs=1:50
         end
         Total_unequals=n-1-Total_equals;
         a_base = b./(g*Total_equals + Total_unequals);
+        %denominator=(g*Total_equals + Total_unequals);
         a_all=a_base.*G;
         P_1=x'.*a_all;
         S_C_1=sum(P_1,2);
@@ -66,13 +66,14 @@ for runs=1:50
         pi(:,1)=S_C_0+k.*(1-x)+r.*(1-p); %SQ (0)
         pi(:,2)=S_C_1+k.*x+r.*p; %Alt (1)
         x=zeros(n,1);
-        x(rand(n,1)<exp(beta*pi(:,2))./(exp(beta*pi(:,2))+exp(beta*pi(:,1))))=1;
+        x(rand(n,1)<exp(beta.*pi(:,2))./(exp(beta.*pi(:,2))+exp(beta.*pi(:,1))))=1;
         %If rand number [0,1] < prob(alt), then agent plays alt
         x(s==1)=1; %Those who are CM will play strat 1 (alt)
         p=.5*(1+(sum(x)-x)/(n-1)-(sum(old)-old)/(n-1)); %Updates x_hat
         z=[z sum(x)];
         if ~FullDiffusion %Defines situation where full diffusion occurs
             t=t+1;
+            y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
             if sum(x)>=.99*n
                 FullDiffusion=true;
             end
@@ -80,7 +81,6 @@ for runs=1:50
         if sum(x)<=.4*n
             dt=t; %dt will stop at take-off time
         end
-        y=y+abs(old-x); %adds 1 to any element of y whose agent has switched
         old=x; %Updates t-1 (Useful for x_hat)
     end
     dt=t-dt; %dt becomes a measure of explosiveness
@@ -99,24 +99,33 @@ for runs=1:50
         end
     end
     if rho == 0.2
-        if runs < 10
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699',HandleVisibility='off')
-            ytickformat("percentage")
-        end
-        if runs == 10
+        if runs == 4
             plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#b03509',DisplayName='\rho_{e} = 0.2')
+            ytickformat("percentage")
+        else
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#ffd699',HandleVisibility='off')
             ytickformat("percentage")
         end
     end
     if rho == 0.5
-        if runs < 50
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#e9b6fa',HandleVisibility='off')
+        if runs < 10
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#eeccff',HandleVisibility='off')
             ytickformat("percentage")
         end
-        if runs == 50
-            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#4d0a8c',DisplayName='\rho_{e} = 0.2')
+        if runs == 10
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#9933ff',Displayname='\rho_{e} = 0.5')
             ytickformat("percentage")
         end
     end
+    if rho == 0.7
+        if runs < 10
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#b3ffb3',HandleVisibility='off')
+            ytickformat("percentage")
+        end
+        if runs == 10
+            plot(linspace(0,rounds,length(z)),(z-n_s*n)*100/(n-n_s*n),'color','#009933',Displayname='\rho_{e} = 0.7')
+            ytickformat("percentage")
+        end
     end
+end
 end
