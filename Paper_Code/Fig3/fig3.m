@@ -40,7 +40,7 @@ rounds=100000;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
 [t,dt,y]=SocDynK_time2(n,beta,r,k,n/4,rho,rounds);
-title('Modified Fig3c: \gamma = 20')
+title('Modified Fig3c: \gamma = 5')
 xlabel('Round, t')
 ylabel('Diffusion')
 legend(Location="northeast")
@@ -52,7 +52,7 @@ xlim([0 0.45])
 ylim([0 100])
 xlabel('Switching Rate, y')
 ylabel('Percentage Frequency')
-title('Modified Fig 3d: Switching Rate \rho_{e} = 0.5, \gamma = 20')
+title('Modified Fig 3d: Switching Rate \rho_{e} = 0.5, \gamma = 5')
 
 
 

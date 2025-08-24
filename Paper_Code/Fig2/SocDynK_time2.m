@@ -14,18 +14,23 @@ if length(r)==1 %Creates an nx1 array where every value is r
     % The nature of k and r arrays will ensure each value adheres to
     % predefined coefficient for explorers and non-explorers
 end
+if length(beta)==1
+    beta=ones(n,1)*beta;
+end
 
 if size(k,1)==1
     k=k'; %Transposes the k array
 end
-
 if size(s,1)==1
     s=s';
 end
-
 if size(r,1)==1
     r=r';
 end
+if size(beta,1)==1
+    beta=beta';
+end
+
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
 g=5;
@@ -67,7 +72,7 @@ for runs=1:10
         pi(:,1)=S_C_0+k.*(1-x)+r.*(1-p); %SQ (0)
         pi(:,2)=S_C_1+k.*x+r.*p; %Alt (1)
         x=zeros(n,1);
-        x(rand(n,1)<exp(beta*pi(:,2))./(exp(beta*pi(:,2))+exp(beta*pi(:,1))))=1;
+        x(rand(n,1)<exp(beta.*pi(:,2))./(exp(beta.*pi(:,2))+exp(beta.*pi(:,1))))=1;
         %If rand number [0,1] < prob(alt), then agent plays alt
         x(s==1)=1; %Those who are CM will play strat 1 (alt)
         p=.5*(1+(sum(x)-x)/(n-1)-(sum(old)-old)/(n-1)); %Updates x_hat
