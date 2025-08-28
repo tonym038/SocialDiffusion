@@ -1,4 +1,4 @@
-function [t,dt,y,derivative_xaxis,dydx] = SocDynK_time2(n,beta,r,k,s,rho) 
+function [t,dt,y,derivative_xaxis,dydx] = SocDynK_time2(g,n,beta,r,k,s,rho) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -14,21 +14,25 @@ if length(r)==1 %Creates an nx1 array where every value is r
     % The nature of k and r arrays will ensure each value adheres to
     % predefined coefficient for explorers and non-explorers
 end
+if length(beta)==1
+    beta=ones(n,1)*beta;
+end
 
 if size(k,1)==1
     k=k'; %Transposes the k array
 end
-
 if size(s,1)==1
     s=s';
 end
-
 if size(r,1)==1
     r=r';
 end
+if size(beta,1)==1
+    beta=beta';
+end
+
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
-g=5;
 for runs=1:10
     rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
@@ -67,7 +71,7 @@ for runs=1:10
         pi(:,1)=S_C_0+k.*(1-x)+r.*(1-p); %SQ (0)
         pi(:,2)=S_C_1+k.*x+r.*p; %Alt (1)
         x=zeros(n,1);
-        x(rand(n,1)<exp(beta*pi(:,2))./(exp(beta*pi(:,2))+exp(beta*pi(:,1))))=1;
+        x(rand(n,1)<exp(beta.*pi(:,2))./(exp(beta.*pi(:,2))+exp(beta.*pi(:,1))))=1;
         %If rand number [0,1] < prob(alt), then agent plays alt
         x(s==1)=1; %Those who are CM will play strat 1 (alt)
         p=.5*(1+(sum(x)-x)/(n-1)-(sum(old)-old)/(n-1)); %Updates x_hat
@@ -95,9 +99,9 @@ for runs=1:10
     delta_t=10;
     derivative_xaxis=xaxis(1+delta_t:end-1);
     Rol_yaxis=zeros(1,(size(yaxis,2)-delta_t));
-    for xxx = 1:size(yaxis,2)-delta_t
-        for yyy = 1:delta_t
-            Rol_yaxis(1,xxx) = Rol_yaxis(1,xxx) + yaxis(1,xxx+delta_t-yyy);
+    for T = 1:size(yaxis,2)-delta_t
+        for d = 1:delta_t
+            Rol_yaxis(1,T) = Rol_yaxis(1,T) + yaxis(1,T+delta_t-d);
         end
     end
     Avg_yaxis=Rol_yaxis./delta_t;
