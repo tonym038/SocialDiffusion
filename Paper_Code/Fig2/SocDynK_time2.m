@@ -1,4 +1,4 @@
-function [t,dt,y,derivative_xaxis,dydx] = SocDynK_time2(n,beta,r,k,s,rho) 
+function [t,dt,y,derivative_xaxis,dydx] = SocDynK_time2(g,n,beta,r,k,s,rho) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -33,7 +33,6 @@ end
 
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
-g=5;
 for runs=1:10
     rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)
@@ -100,9 +99,9 @@ for runs=1:10
     delta_t=10;
     derivative_xaxis=xaxis(1+delta_t:end-1);
     Rol_yaxis=zeros(1,(size(yaxis,2)-delta_t));
-    for xxx = 1:size(yaxis,2)-delta_t
-        for yyy = 1:delta_t
-            Rol_yaxis(1,xxx) = Rol_yaxis(1,xxx) + yaxis(1,xxx+delta_t-yyy);
+    for T = 1:size(yaxis,2)-delta_t
+        for d = 1:delta_t
+            Rol_yaxis(1,T) = Rol_yaxis(1,T) + yaxis(1,T+delta_t-d);
         end
     end
     Avg_yaxis=Rol_yaxis./delta_t;

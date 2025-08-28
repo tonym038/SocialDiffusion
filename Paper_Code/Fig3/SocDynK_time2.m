@@ -1,4 +1,4 @@
-function [t,dt,y] = SocDynK_time2(n,beta,r,k,s,rho,rounds) 
+function [t,dt,y] = SocDynK_time2(g,n,beta,r,k,s,rho,rounds) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -36,7 +36,6 @@ end
 
 b=ones(n,1)-k-r; %b is the remainder of weights from k and r
 %From definition of b+k+r=1
-g=5;
 for runs=1:10
     rng(runs)
     y=zeros(n,1); %Creates an array of 0s (n rows, 1 column)

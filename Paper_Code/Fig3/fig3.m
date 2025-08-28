@@ -2,6 +2,7 @@ clear all
 clc
 
 %% Our
+g=5;
 n=200; %No. Participants
 beta=7.8; %Rationality
 r_e=0.42; %Coefficients for mechanisms explorers vs non-explorers
@@ -13,8 +14,8 @@ n_e=round(n*rho*3/4); % = No. explorers
 rounds=120;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
-[t,dt,y]=SocDynK_time2(n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho,rounds);
-title('Modified Fig3a: \gamma = 5')
+[t,dt,y]=SocDynK_time2(g,n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho,rounds);
+title(['Fig3a: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Diffusion')
 figure %Opens new figure window
@@ -24,10 +25,11 @@ xlim([0 0.45])
 ylim([0 100])
 xlabel('Switching Rate, y')
 ylabel('Percentage Frequency')
-title('Modified Fig 3b: Switching Rate \rho_{e} = 0.5, \gamma = 5')
+title(['Fig 3b: Switching Rate \rho_{e} = 0.5, \gamma = ',num2str(g)])
 
 
 %% Heterogeneous
+g=8;
 n=200;
 rho=0.5;
 beta_h=19.7; %Changes the rationality for non-explorers for next fig
@@ -36,11 +38,11 @@ beta=[beta_l*ones(75,1);beta_h*ones(125,1)]; %Creates an array of betas
 r=0;
 k=0;
 n_e=round(n*rho*3/4); % = No. explorers
-rounds=100000;
+rounds=10000;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
-[t,dt,y]=SocDynK_time2(n,beta,r,k,n/4,rho,rounds);
-title('Modified Fig3c: \gamma = 5')
+[t,dt,y]=SocDynK_time2(g,n,beta,r,k,n/4,rho,rounds);
+title(['Fig3c: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Diffusion')
 legend(Location="northeast")
@@ -52,11 +54,12 @@ xlim([0 0.45])
 ylim([0 100])
 xlabel('Switching Rate, y')
 ylabel('Percentage Frequency')
-title('Modified Fig 3d: Switching Rate \rho_{e} = 0.5, \gamma = 5')
+title(['Fig 3d: Switching Rate \rho_{e} = 0.5, \gamma = ',num2str(g)])
 
 
 
 %% Heterogeneous diffusion 1
+g=1;
 n=200;
 rho=0.7;
 beta_h=19.7; %Changes the rationality for non-explorers for next fig
@@ -68,8 +71,8 @@ n_e=round(n*rho*3/4); % = No. explorers
 rounds=120;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
-[t,dt,y]=SocDynK_time2(n,beta,r,k,n/4,rho,rounds);
-title('Modified Fig3e: \gamma = 20')
+[t,dt,y]=SocDynK_time2(g,n,beta,r,k,n/4,rho,rounds);
+title(['Fig3e: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Diffusion')
 legend(Location="northeast")
@@ -81,9 +84,10 @@ xlim([0 0.45])
 ylim([0 100])
 xlabel('Switching Rate, y')
 ylabel('Percentage Frequency')
-title('Modified Fig 3f: Switching Rate \rho_{e} = 0.7, \beta_{f} = 19.7, \gamma = 20')
+title(['Fig 3f: Switching Rate \rho_{e} = 0.7, \beta_{f} = ',num2str(beta_h),', \gamma = ',num2str(g)])
 
 %% Heterogeneous diffusion 2
+g=5;
 n=200;
 rho=0.7;
 beta_h=8.5; %Changes the rationality for non-explorers for next fig
@@ -95,8 +99,8 @@ n_e=round(n*rho*3/4); % = No. explorers
 rounds=120;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
-[t,dt,y]=SocDynK_time2(n,beta,r,k,n/4,rho,rounds);
-title('Modified Fig3g: \gamma = 20')
+[t,dt,y]=SocDynK_time2(g,n,beta,r,k,n/4,rho,rounds);
+title(['Fig3g: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Diffusion')
 legend(Location="northeast")
@@ -108,5 +112,5 @@ xlim([0 0.45])
 ylim([0 100])
 xlabel('Switching Rate, y')
 ylabel('Percentage Frequency')
-title('Modified Fig 3h: Switching Rate \rho_{e} = 0.7, \beta_{f} = 8.5, \gamma = 20')
+title(['Fig 3h: Switching Rate \rho_{e} = 0.7, \beta_{f} = ',num2str(beta_h), ', \gamma = ',num2str(g)])
 
