@@ -11,11 +11,11 @@ k_f=0.42;
 rho=0.2; %Percentage of explorers
 hold on
 n_e=round(n*rho*3/4); %No. explorers = No.participants*percentage explorers*percentage non-committed
-[t,dt,y,x,dydx]=SocDynK_time2(g,n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho); %Plots line where rho=0.2
+[t,dt,y,x,dydx]=SocDynK_2(g,n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho); %Plots line where rho=0.2
 rho=0.6;
 hold on %Allows multiple lines for fig 2a
 n_e=round(n*rho*3/4);
-[t2,dt2,y2,x2,dydx2]=SocDynK_time2(g,n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho);
+[t2,dt2,y2,x2,dydx2]=SocDynK_2(g,n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho);
 title(['Fig2a: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Players Adopting the Alternative')

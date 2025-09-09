@@ -1,4 +1,4 @@
-function [t,dt,y,derivative_xaxis,dydx] = SocDynK_time2(g,n,beta,r,k,s,rho) 
+function [t,dt,y] = SocDynK_3(g,n,beta,r,k,s,rho,rounds) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -21,12 +21,15 @@ end
 if size(k,1)==1
     k=k'; %Transposes the k array
 end
+
 if size(s,1)==1
     s=s';
 end
+
 if size(r,1)==1
     r=r';
 end
+
 if size(beta,1)==1
     beta=beta';
 end
@@ -42,7 +45,6 @@ for runs=1:10
     t=0; %Sets starting value for t
     dt=0;
     z=n*n_s; %=Number of committed minority
-    rounds=450;
     FullDiffusion = false;
     for rnds = 1:rounds
         Total_equals=[];
@@ -96,33 +98,42 @@ for runs=1:10
     %end
     xaxis=linspace(0,rounds,length(z));
     yaxis=(z-n_s*n)*100/(n-n_s*n);
-    delta_t=10;
-    derivative_xaxis=xaxis(1+delta_t:end-1);
-    Rol_yaxis=zeros(1,(size(yaxis,2)-delta_t));
-    for T = 1:size(yaxis,2)-delta_t
-        for d = 1:delta_t
-            Rol_yaxis(1,T) = Rol_yaxis(1,T) + yaxis(1,T+delta_t-d);
-        end
-    end
-    Avg_yaxis=Rol_yaxis./delta_t;
     if rho == 0.6
         if runs < 10
             plot(xaxis,yaxis,'color','#cce0ff',HandleVisibility='off')
             ytickformat("percentage")
         end
         if runs == 10
-            plot(xaxis,yaxis,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
+            plot(xaxis,axis,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
             ytickformat("percentage")
-            dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         end
     end
     if rho == 0.2
         if runs == 4
             plot(xaxis,yaxis,'color','#b03509',DisplayName='\rho_{e} = 0.2')
             ytickformat("percentage")
-            dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         else
             plot(xaxis,yaxis,'color','#ffd699',HandleVisibility='off')
+            ytickformat("percentage")
+        end
+    end
+    if rho == 0.5
+        if runs < 10
+            plot(xaxis,yaxis,'color','#eeccff',HandleVisibility='off')
+            ytickformat("percentage")
+        end
+        if runs == 10
+            plot(xaxis,yaxis,'color','#9933ff',Displayname='\rho_{e} = 0.5')
+            ytickformat("percentage")
+        end
+    end
+    if rho == 0.7
+        if runs < 10
+            plot(xaxis,yaxis,'color','#b3ffb3',HandleVisibility='off')
+            ytickformat("percentage")
+        end
+        if runs == 10
+            plot(xaxis,yaxis,'color','#009933',Displayname='\rho_{e} = 0.7')
             ytickformat("percentage")
         end
     end

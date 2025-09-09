@@ -1,5 +1,4 @@
-function [FD] = SocDynK_time2(g,n,beta,r,k,s,rounds) 
-rng(123)
+function [FD] = SocDynK_6a(g,n,beta,r,k,s,rounds) 
 FD=0;
 n_s=sum(s)/n; 
 if isscalar(s)

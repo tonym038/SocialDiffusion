@@ -14,7 +14,7 @@ n_e=round(n*rho*3/4); % = No. explorers
 rounds=120;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
-[t,dt,y]=SocDynK_time2(g,n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho,rounds);
+[t,dt,y]=SocDynK_3(g,n,beta,[r_e*ones(1,n_e) r_f*ones(1,n-n_e)],[k_e*ones(1,n_e) k_f*ones(1,n-n_e)],n/4,rho,rounds);
 title(['Fig3a: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Diffusion')
@@ -41,7 +41,7 @@ n_e=round(n*rho*3/4); % = No. explorers
 rounds=10000;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
-[t,dt,y]=SocDynK_time2(g,n,beta,r,k,n/4,rho,rounds);
+[t,dt,y]=SocDynK_3(g,n,beta,r,k,n/4,rho,rounds);
 title(['Fig3c: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Diffusion')
@@ -71,7 +71,7 @@ n_e=round(n*rho*3/4); % = No. explorers
 rounds=120;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
-[t,dt,y]=SocDynK_time2(g,n,beta,r,k,n/4,rho,rounds);
+[t,dt,y]=SocDynK_3(g,n,beta,r,k,n/4,rho,rounds);
 title(['Fig3e: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Diffusion')
@@ -99,7 +99,7 @@ n_e=round(n*rho*3/4); % = No. explorers
 rounds=120;
 figure %Opens new figure window
 hold on %Allows multiple lines on same plot
-[t,dt,y]=SocDynK_time2(g,n,beta,r,k,n/4,rho,rounds);
+[t,dt,y]=SocDynK_3(g,n,beta,r,k,n/4,rho,rounds);
 title(['Fig3g: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Diffusion')
