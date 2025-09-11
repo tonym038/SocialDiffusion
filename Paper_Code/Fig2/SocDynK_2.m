@@ -111,14 +111,14 @@ for runs=1:10
             ytickformat("percentage")
         end
         if runs == 10
-            plot(xaxis,yaxis,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
+            plot(xaxis,yaxis,'color','#1f77b4',DisplayName='\rho_{e} = 0.6',LineWidth=1)
             ytickformat("percentage")
             dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         end
     end
     if rho == 0.2
         if runs == 4
-            plot(xaxis,yaxis,'color','#b03509',DisplayName='\rho_{e} = 0.2')
+            plot(xaxis,yaxis,'color','#d62728',DisplayName='\rho_{e} = 0.2',LineWidth=1)
             ytickformat("percentage")
             dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         else

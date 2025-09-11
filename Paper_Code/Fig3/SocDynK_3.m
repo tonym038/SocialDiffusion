@@ -98,32 +98,13 @@ for runs=1:10
     %end
     xaxis=linspace(0,rounds,length(z));
     yaxis=(z-n_s*n)*100/(n-n_s*n);
-    if rho == 0.6
-        if runs < 10
-            plot(xaxis,yaxis,'color','#cce0ff',HandleVisibility='off')
-            ytickformat("percentage")
-        end
-        if runs == 10
-            plot(xaxis,axis,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
-            ytickformat("percentage")
-        end
-    end
-    if rho == 0.2
-        if runs == 4
-            plot(xaxis,yaxis,'color','#b03509',DisplayName='\rho_{e} = 0.2')
-            ytickformat("percentage")
-        else
-            plot(xaxis,yaxis,'color','#ffd699',HandleVisibility='off')
-            ytickformat("percentage")
-        end
-    end
     if rho == 0.5
         if runs < 10
             plot(xaxis,yaxis,'color','#eeccff',HandleVisibility='off')
             ytickformat("percentage")
         end
         if runs == 10
-            plot(xaxis,yaxis,'color','#9933ff',Displayname='\rho_{e} = 0.5')
+            plot(xaxis,yaxis,'color','#9467bd',Displayname='\rho_{e} = 0.5',LineWidth=1)
             ytickformat("percentage")
         end
     end
@@ -133,7 +114,7 @@ for runs=1:10
             ytickformat("percentage")
         end
         if runs == 10
-            plot(xaxis,yaxis,'color','#009933',Displayname='\rho_{e} = 0.7')
+            plot(xaxis,yaxis,'color','#2ca02c',Displayname='\rho_{e} = 0.7',LineWidth=1)
             ytickformat("percentage")
         end
     end
