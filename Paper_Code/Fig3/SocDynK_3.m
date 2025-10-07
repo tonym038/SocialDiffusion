@@ -93,9 +93,6 @@ for runs=1:10
     end
     dt=t-dt; %dt becomes a measure of explosiveness
     y=y(1:round((1-n_s)*n))'; %Formula for switching rate for non-CM agents
-    %if t>400
-     %   z=reducev(z,0:t,200);
-    %end
     xaxis=linspace(0,rounds,length(z));
     yaxis=(z-n_s*n)*100/(n-n_s*n);
     if rho == 0.5
@@ -108,13 +105,23 @@ for runs=1:10
             ytickformat("percentage")
         end
     end
-    if rho == 0.7
+    if rho == 0.7 && beta(end) == 19.7
         if runs < 10
             plot(xaxis,yaxis,'color','#b3ffb3',HandleVisibility='off')
             ytickformat("percentage")
         end
         if runs == 10
             plot(xaxis,yaxis,'color','#2ca02c',Displayname='\rho_{e} = 0.7',LineWidth=1)
+            ytickformat("percentage")
+        end
+    end
+    if rho == 0.7 && beta(end) == 8.5
+        if runs < 10
+            plot(xaxis,yaxis,'color','#4dbbd6',HandleVisibility='off')
+            ytickformat("percentage")
+        end
+        if runs == 10
+            plot(xaxis,yaxis,'color','#023a73',Displayname='\rho_{e} = 0.7',LineWidth=1)
             ytickformat("percentage")
         end
     end

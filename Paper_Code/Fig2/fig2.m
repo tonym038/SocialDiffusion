@@ -19,7 +19,7 @@ n_e=round(n*rho*3/4);
 title(['Fig2a: \gamma = ',num2str(g)])
 xlabel('Round, t')
 ylabel('Players Adopting the Alternative')
-legend(Location="southeast")
+legend('\rho_{e} = 0.2', '\rho_{e} = 0.6', Location="southeast")
 figure %Used to create new figure window
 plot(x,dydx,'color','#d62728',DisplayName='\rho_{e} = 0.2')
 ytickformat("percentage")
@@ -27,7 +27,7 @@ hold on
 plot(x2,dydx2,'color','#1f77b4',DisplayName='\rho_{e} = 0.6')
 title(['Fig 2d: \gamma = ',num2str(g)])
 xlabel('Round, t')
-ylabel({'Percentage Point Players Adopting the Alternative' ;'Backwards Rolling Average of Last 10 Rounds'})
+ylabel({'Change in Backwards Rolling Average of Last 10 Rounds' ;' of Players Adopting the Alternative'})
 legend(Location='northeast')
 figure
 histogram(max(0,y/t),14,'Normalization','percentage','FaceColor','r','EdgeColor','r', 'BinWidth', 0.025)
