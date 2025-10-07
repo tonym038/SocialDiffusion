@@ -1,4 +1,4 @@
-function [t,dt,y,derivative_xaxis,dydx] = SocDynK_time2(g,n,beta,r,k,s,rho) 
+function [t,dt,y,derivative_xaxis,dydx] = SocDynK_2(g,n,beta,r,k,s,rho) 
 %s is the number of committed minority
 % k and r are arrays of n*1 where the first n-s entries are k_e, followed
 % by k_f
@@ -69,6 +69,7 @@ for runs=1:10
         P_0=(1-x').*a_all;
         S_C_0=sum(P_0,2);
         pi(:,1)=S_C_0+k.*(1-x)+r.*(1-p); %SQ (0)
+        %Components=[S_C_0 k.*(1-x) r.*(1-p)];
         pi(:,2)=S_C_1+k.*x+r.*p; %Alt (1)
         x=zeros(n,1);
         x(rand(n,1)<exp(beta.*pi(:,2))./(exp(beta.*pi(:,2))+exp(beta.*pi(:,1))))=1;
@@ -91,9 +92,6 @@ for runs=1:10
     end
     dt=t-dt; %dt becomes a measure of explosiveness
     y=y(1:round((1-n_s)*n))'; %Formula for switching rate for non-CM agents
-    %if t>400
-     %   z=reducev(z,0:t,200);
-    %end
     xaxis=linspace(0,rounds,length(z));
     yaxis=(z-n_s*n)*100/(n-n_s*n);
     delta_t=10;
@@ -107,22 +105,24 @@ for runs=1:10
     Avg_yaxis=Rol_yaxis./delta_t;
     if rho == 0.6
         if runs < 10
-            plot(xaxis,yaxis,'color','#cce0ff',HandleVisibility='off')
+            plott=plot(xaxis,yaxis,'color','#cce0ff',HandleVisibility='off');
+            uistack(plott,'bottom')
             ytickformat("percentage")
         end
         if runs == 10
-            plot(xaxis,yaxis,'color','#0000CC',DisplayName='\rho_{e} = 0.6')
+            plot(xaxis,yaxis,'color','#1f77b4',DisplayName='\rho_{e} = 0.6',LineWidth=1)
             ytickformat("percentage")
             dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         end
     end
     if rho == 0.2
         if runs == 4
-            plot(xaxis,yaxis,'color','#b03509',DisplayName='\rho_{e} = 0.2')
+            plot(xaxis,yaxis,'color','#d62728',DisplayName='\rho_{e} = 0.2',LineWidth=1)
             ytickformat("percentage")
             dydx=(Avg_yaxis(2:end)-Avg_yaxis(1:end-1))./(xaxis(2+delta_t:end)-derivative_xaxis);
         else
-            plot(xaxis,yaxis,'color','#ffd699',HandleVisibility='off')
+            plott=plot(xaxis,yaxis,'color','#ffd699',HandleVisibility='off');
+            uistack(plott,'bottom')
             ytickformat("percentage")
         end
     end
